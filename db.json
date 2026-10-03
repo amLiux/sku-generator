@@ -1,0 +1,148 @@
+{
+  "config": {
+    "brand": {
+      "code": "GF",
+      "name": "GF"
+    },
+    "separator": "-"
+  },
+  "drops": [
+    {
+      "code": "D1",
+      "name": "Drop 1"
+    },
+    {
+      "code": "D2",
+      "name": "Drop 2"
+    },
+    {
+      "code": "D3",
+      "name": "D3"
+    }
+  ],
+  "categories": [
+    {
+      "code": "TS",
+      "name": "Camisetas"
+    },
+    {
+      "code": "HD",
+      "name": "Hoodies"
+    },
+    {
+      "code": "POLO",
+      "name": "Camisetas Polo"
+    },
+    {
+      "code": "CAP",
+      "name": "Gorras"
+    },
+    {
+      "code": "DECK",
+      "name": "Decks"
+    },
+    {
+      "code": "OBS",
+      "name": "Obstáculos"
+    },
+    {
+      "code": "STK",
+      "name": "Stickers"
+    },
+    {
+      "code": "ACC",
+      "name": "Accesorios"
+    }
+  ],
+  "subcategories": [
+    {
+      "code": "TEST",
+      "name": "TEST"
+    }
+  ],
+  "base_colors": [
+    {
+      "code": "BLK",
+      "name": "Black"
+    },
+    {
+      "code": "WHT",
+      "name": "White"
+    },
+    {
+      "code": "GRY",
+      "name": "Grey"
+    },
+    {
+      "code": "NVY",
+      "name": "Navy"
+    }
+  ],
+  "designs": [
+    {
+      "code": "LG1",
+      "name": "Logo"
+    },
+    {
+      "code": "GR1",
+      "name": "Graphic"
+    },
+    {
+      "code": "TX1",
+      "name": "Text"
+    }
+  ],
+  "design_colors": [
+    {
+      "code": "BLK",
+      "name": "Black"
+    },
+    {
+      "code": "WHT",
+      "name": "White"
+    },
+    {
+      "code": "RED",
+      "name": "Red"
+    }
+  ],
+  "sizes": [
+    {
+      "code": "XS",
+      "name": "Extra Small"
+    },
+    {
+      "code": "S",
+      "name": "Small"
+    },
+    {
+      "code": "M",
+      "name": "Medium"
+    },
+    {
+      "code": "L",
+      "name": "Large"
+    },
+    {
+      "code": "XL",
+      "name": "Extra Large"
+    },
+    {
+      "code": "NA",
+      "name": "Not applicable"
+    }
+  ],
+  "products": [
+    {
+      "sku": "GF-D3-TS-TEST-WHT-LG1-RED-L",
+      "created_at": "2026-10-03T14:53:35",
+      "drops": "D3",
+      "categories": "TS",
+      "subcategories": "TEST",
+      "base_colors": "WHT",
+      "designs": "LG1",
+      "design_colors": "RED",
+      "sizes": "L"
+    }
+  ]
+}

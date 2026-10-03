@@ -1,0 +1,11 @@
+[project]
+name = "gf-sku"
+version = "0.1.0"
+description = "GF SKU Generator"
+requires-python = ">=3.11"
+dependencies = [
+    "textual>=0.80.0",
+]
+
+[tool.uv]
+package = false

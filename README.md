@@ -1,282 +1,220 @@
-GF SKU Generator
+# GF SKU Generator
 
-Herramienta interactiva de terminal (TUI) para generar y administrar SKUs de productos de GF.
+CLI interactivo para generar y registrar SKUs de productos de GF.
 
-La aplicación utiliza un archivo local db.json como base de datos, por lo que no requiere ningún servidor ni configuración adicional.
+El proyecto mantiene un catálogo local en `db.json` y utiliza un wizard paso a paso para construir cada SKU de forma consistente.
 
-Requisitos
+## Stack
 
-Python 3.11 o superior
+- **Python 3.11+**
+- **uv** — gestión del entorno y dependencias
+- **Questionary** — wizard interactivo
+- **Rich** — presentación y formato de la terminal
+- **JSON** — almacenamiento local
 
-uv
+## Requisitos
 
-Instalación
+Necesitas Python y `uv`.
 
-Clona el repositorio y ejecuta:
+### Python
 
+Descarga Python desde:
+
+https://www.python.org/downloads/
+
+Comprueba la instalación:
+
+```bash
+python3 --version
+```
+
+### uv
+
+`uv` es el gestor de proyectos y entornos Python utilizado por este proyecto.
+
+Documentación oficial:
+
+https://docs.astral.sh/uv/
+
+En macOS/Linux:
+
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+Comprueba la instalación:
+
+```bash
+uv --version
+```
+
+## Instalación
+
+### Desde GitHub
+
+Clona el repositorio:
+
+```bash
+git clone <REPOSITORY_URL>
+cd sku-generator
+```
+
+Instala las dependencias:
+
+```bash
 uv sync
+```
 
+Ejecuta el programa:
 
-Esto instalará automáticamente las dependencias del proyecto.
+```bash
+uv run python main.py
+```
 
-Ejecutar la aplicación
-uv run sku
+### Sin GitHub
 
+Si recibiste el proyecto como una carpeta o un `.zip`, entra en la carpeta del proyecto:
 
-También puedes ejecutarla directamente como módulo de Python:
+```bash
+cd sku-generator
+```
 
-uv run python -m gf_sku
+Instala las dependencias:
 
-Formato del SKU
+```bash
+uv sync
+```
 
-El formato actual del SKU es:
+Ejecuta el programa:
 
-GF-DROP-CAT-SUB-BASE-DESIGN-CLR-SZ
+```bash
+uv run python main.py
+```
 
+No necesitas crear manualmente un virtual environment. `uv` se encarga de crear y utilizar `.venv`.
+
+## Uso
+
+Al iniciar el programa aparecerá un wizard interactivo:
+
+```text
+GF · SKU GENERATOR
+
+SKU actual
+GF
+
+Step 1/7
+
+? Drop
+❯ D1 · Drop 1
+  D2 · Drop 2
+  ＋ Crear nuevo
+```
+
+El SKU se va construyendo conforme avanzas:
+
+```text
+GF
+GF-D1
+GF-D1-TS
+GF-D1-TS-OVS
+GF-D1-TS-OVS-BLK
+GF-D1-TS-OVS-BLK-GR1
+GF-D1-TS-OVS-BLK-GR1-WHT
+GF-D1-TS-OVS-BLK-GR1-WHT-M
+```
+
+Al finalizar se valida que el SKU no exista y se solicita confirmación antes de guardarlo.
+
+## Catálogo local
+
+Los valores disponibles se almacenan en:
+
+```text
+db.json
+```
+
+Si durante el wizard eliges:
+
+```text
+＋ Crear nuevo
+```
+
+el nuevo valor se valida, normaliza y agrega automáticamente al catálogo.
 
 Por ejemplo:
 
-GF-D1-TS-OVS-BLK-GR1-WHT-M
-
-
-Cada componente representa:
-
-Componente	Significado	Ejemplo
-GF	Marca	GF
-DROP	Número de drop	D1
-CAT	Categoría	TS
-SUB	Subcategoría	OVS
-BASE	Color base del producto	BLK
-DESIGN	Tipo de diseño	GR1
-CLR	Color del diseño	WHT
-SZ	Talla	M
-Ejemplo completo
-GF-D1-TS-OVS-BLK-GR1-WHT-M
-
-
-Significa:
-
-GF → GF
-
-D1 → Drop 1
-
-TS → Camiseta
-
-OVS → Oversized
-
-BLK → Negro
-
-GR1 → Diseño gráfico
-
-WHT → Diseño blanco
-
-M → Talla Medium
-
-Flujo de creación
-
-La aplicación guía al usuario paso a paso:
-
-Drop
-
-Categoría
-
-Subcategoría
-
-Color base
-
-Tipo de diseño
-
-Color del diseño
-
-Talla
-
-Revisión del SKU
-
-Guardar
-
-En cada paso se muestran las opciones que ya existen en el catálogo.
-
-También existe la opción:
-
-+ Add new
-
-
-para crear un nuevo valor directamente desde la aplicación.
-
-Por ejemplo:
-
-Base Color
-
-  BLK — Black
-  WHT — White
-  GRY — Grey
-  + Add new
-
-
-Si se introduce:
-
+```text
 Dark Blue
+```
 
+se convierte en:
 
-el sistema lo normaliza automáticamente a:
-
+```text
 DARK-BLUE
+```
 
+y queda disponible para futuros SKUs.
 
-y lo agrega al catálogo.
+Los productos creados también se registran en `db.json`.
 
-Base de datos local
+## Estructura
 
-Toda la información se almacena en:
-
-db.json
-
-
-No se necesita SQLite, PostgreSQL ni ningún servidor para utilizar esta versión.
-
-El archivo contiene tanto los catálogos como los productos creados:
-
-{
-  "categories": [],
-  "subcategories": [],
-  "base_colors": [],
-  "designs": [],
-  "design_colors": [],
-  "sizes": [],
-  "products": []
-}
-
-
-La aplicación actualiza automáticamente este archivo cuando:
-
-Se agrega una nueva opción al catálogo.
-
-Se crea un nuevo producto.
-
-Se guarda un nuevo SKU.
-
-Validación
-
-Todos los valores introducidos manualmente pasan por un proceso de normalización y validación antes de entrar al catálogo.
-
-Por ejemplo:
-
-dark blue       → DARK-BLUE
-Dark Blue       → DARK-BLUE
-dark_blue       → DARK-BLUE
- dark blue      → DARK-BLUE
-red/white       → RED-WHITE
-
-
-Los códigos pueden contener:
-
-A-Z
-0-9
--
-
-
-No se permiten:
-
-Espacios.
-
-Caracteres especiales.
-
--- consecutivos.
-
-- al inicio.
-
-- al final.
-
-La idea es que cualquier valor almacenado en el catálogo pueda utilizarse directamente dentro de un SKU.
-
-Evitar SKUs duplicados
-
-Antes de guardar un producto, la aplicación verifica si el SKU ya existe.
-
-Por ejemplo, si ya existe:
-
-GF-D1-TS-OVS-BLK-GR1-WHT-M
-
-
-el sistema no permitirá crear otro producto con el mismo SKU.
-
-Estructura del proyecto
-gf-sku/
+```text
+sku-generator/
 ├── db.json
+├── main.py
 ├── pyproject.toml
-├── README.md
-└── src/
-    └── gf_sku/
-        ├── __init__.py
-        ├── __main__.py
-        ├── app.py
-        ├── database.py
-        └── validation.py
+├── uv.lock
+└── README.md
+```
 
-app.py
+## Ejecutar nuevamente
 
-Contiene la interfaz TUI y el flujo de creación del SKU.
+La forma recomendada es:
 
-database.py
+```bash
+uv run python main.py
+```
 
-Maneja la lectura y escritura de db.json, además de las operaciones sobre productos y catálogos.
+No necesitas activar `.venv` manualmente.
 
-validation.py
+Si prefieres activarlo:
 
-Contiene la lógica para normalizar y validar los códigos utilizados por los SKUs.
+### macOS / Linux
 
-db.json
+```bash
+source .venv/bin/activate
+python main.py
+```
 
-Es la base de datos local de la aplicación.
+### Windows
 
-Desarrollo
+```powershell
+.venv\Scripts\activate
+python main.py
+```
 
-Para instalar las dependencias:
+## Desarrollo
 
+Actualizar dependencias:
+
+```bash
 uv sync
+```
 
+Agregar una dependencia:
 
-Para ejecutar:
+```bash
+uv add nombre-del-paquete
+```
 
-uv run sku
+Eliminar una dependencia:
 
+```bash
+uv remove nombre-del-paquete
+```
 
-Para ejecutar como módulo:
+## Licencia
 
-uv run python -m gf_sku
-
-
-Para inspeccionar la base de datos:
-
-cat db.json
-
-
-En Windows PowerShell:
-
-Get-Content db.json
-
-Próximos pasos
-
-La primera versión está enfocada en generar SKUs rápidamente y mantener un catálogo local.
-
-Algunas mejoras previstas:
-
-Hacer que las subcategorías dependan de la categoría seleccionada.
-
-Detectar automáticamente cuándo una categoría no utiliza talla y asignar NA.
-
-Permitir editar y eliminar opciones del catálogo.
-
-Permitir editar productos existentes.
-
-Mejorar la navegación con teclado.
-
-Agregar búsqueda dentro de catálogos grandes.
-
-Agregar confirmación antes de modificar el catálogo.
-
-Exportar productos a CSV.
-
-Agregar tests automatizados.
-
-Eventualmente separar el motor de generación de SKU de la interfaz TUI para poder reutilizarlo en otros contextos.
+Uso interno de GF.
